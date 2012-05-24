@@ -22,7 +22,7 @@ Installation is straightforward, add the following lines to your deps file:
     version=1.1.0
 ```
 
-Register the Kunstmaan namespace in your autoload.php file:
+Register the Mobile namespace in your autoload.php file:
 
 ```
 'Mobile'        => __DIR__.'/../src/Mobile'
