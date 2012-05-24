@@ -1,0 +1,21 @@
+{% extends 'MobileIpermindBundle::layout.html.twig' %}
+
+{% block header %}
+<div data-role="header" data-theme="c">
+    <h3>Mobile IperMind</h3>
+                <a data-ajax="false" href="{{ path("MobileIpermindBundle_startGame") }}" data-icon="home" data-iconpos="notext" data-transition="fade">home</a>
+                <a href="{{ path("MobileIpermindBundle_info") }}" data-icon="info" data-iconpos="notext" data-transition="fade">info</a>
+</div><!-- /header -->
+
+{% endblock %}
+
+
+{% block content %} {% endblock %}
+
+
+{% block footer %}
+
+<div data-role="footer" data-theme="c">
+    <br><p style='text-align: center; font-size: 0.8em; font-weight:200;'>Mobile IperMind - 2012<br>A Symfony 2 & jQuery Mobile project</p><br>
+</div><!-- /footer -->
+{% endblock %}

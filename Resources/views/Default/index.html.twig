@@ -1,0 +1,194 @@
+{% extends 'MobileIpermindBundle::page.html.twig' %}
+
+{% block content %}
+
+<style>
+
+   .tzcd{
+       font-family: Stencil Std, Trebuchet MS, Arial;
+       font-size: 2.5em;
+       font-weight: bolder;
+       color: #004EFF;
+       
+    }
+        
+</style>
+   
+
+
+<div data-role="content" style="text-align: center;">
+    
+     <div class="content-secondary" style="font-size: 0.8em;">
+         <img src='{{ asset('bundles/mobileipermind/images/logo_ipermind.png') }}'><br><br>
+    </div>
+    <div class="content-primary" data-theme="a">
+        <div id="debug">{{GameModel.getDebugSequence()}}</div>
+        {% set sequence = GameModel.getSequence() %}
+        
+        <table align="center">
+         <tr>
+          <td id="sequence_1"><img src='{{ asset('bundles/mobileipermind/images/')}}{{sequence[0]}}_point.png'></td>
+          <td id="sequence_2"><img src='{{ asset('bundles/mobileipermind/images/')}}{{sequence[1]}}_point.png'></td>
+          <td id="sequence_3"><img src='{{ asset('bundles/mobileipermind/images/')}}{{sequence[2]}}_point.png'></td>
+          <td id="sequence_4"><img src='{{ asset('bundles/mobileipermind/images/')}}{{sequence[3]}}_point.png'></td>
+         </tr>
+         <tr>
+          <td id="arrow_1" style="text-align: center;"><img src='{{ asset('bundles/mobileipermind/images/')}}arrow.png'></td>
+          <td id="arrow_2" style="text-align: center;"><img src='{{ asset('bundles/mobileipermind/images/')}}arrow_empty.png'></td>
+          <td id="arrow_3" style="text-align: center;"><img src='{{ asset('bundles/mobileipermind/images/')}}arrow_empty.png'></td>
+          <td id="arrow_4" style="text-align: center;"><img src='{{ asset('bundles/mobileipermind/images/')}}arrow_empty.png'></td>
+         </tr>
+         
+        </table>
+        <table align="center">
+         <tr>
+          <td><img src='{{ asset('bundles/mobileipermind/images/logic&memory.png') }}'></td>
+         </tr>
+        </table>
+        <div id="tzcd" class="tzcd"></div>
+        <br>
+        <table align="center">
+         <tr>
+          <td width="135">
+              
+             {% set matrix_errors = GameModel.getErrors() %} 
+              
+             <table align="center">
+                <tr>
+                 <td><img src='{{ asset('bundles/mobileipermind/images/')}}check_{{matrix_errors[0]}}.png'></td>
+                 <td><img src='{{ asset('bundles/mobileipermind/images/')}}check_{{matrix_errors[1]}}.png'></td>
+                </tr>
+                <tr>
+                 <td><img src='{{ asset('bundles/mobileipermind/images/')}}check_{{matrix_errors[2]}}.png'></td>
+                 <td><img src='{{ asset('bundles/mobileipermind/images/')}}check_{{matrix_errors[3]}}.png'></td>
+                </tr>
+              </table>
+          </td>
+          <td width="135"><img src='{{ asset('bundles/mobileipermind/images/logo_dc.png') }}'></td>
+         </tr>
+        </table>
+        <table align="center">
+        <tr>
+          <td width="135">
+          
+              <select data-ajax="false" data-theme="d" name="select-choice-sequence-step" id="select-choice-sequence-step" data-native-menu="false" onchange="setSequenceStep();">
+                                        <option value="">choose</option>
+					<option value="red">red</option>
+					<option value="green">green</option>
+					<option value="blue">blue</option>
+					<option value="gold">gold</option>
+				</select>
+	 
+          </td>
+          <td>
+              <form data-ajax="false" method="POST" action="{{ path('MobileIpermindBundle_checkit') }}">
+                  <input type="hidden" name="sequence" id="sequence_hidden_field">
+                  <input type="hidden" name="time" id="time_hidden_field">
+                  <button id="checkitsubmit" type="submit" data-theme="a" name="submit" onsubmit="checkIt();">Check it</button>
+              <form>
+	  </td>
+         </tr>
+        </table>
+                        
+    </div>
+    
+</div> 
+
+
+<script>
+
+
+var hour = 0;        
+var lab = 'tzcd';   
+var sequence = new Array();
+
+function start() {
+    displayTZCountDown({{ GameModel.getTime() }},lab);
+}
+
+window.onload = start;
+$( "#sequence_1" ).css( "opacity" , "0.5" );
+$( "#sequence_2" ).css( "opacity" , "0.5" );
+$( "#sequence_3" ).css( "opacity" , "0.5" );
+$( "#sequence_4" ).css( "opacity" , "0.5" );
+
+preload();
+
+function preload(){
+    var img1 = new Image(); img1 = "{{ asset('bundles/mobileipermind/images/') }}red_point.png";
+    var img2 = new Image(); img2 = "{{ asset('bundles/mobileipermind/images/') }}green_point.png";
+    var img3 = new Image(); img3 = "{{ asset('bundles/mobileipermind/images/') }}blue_point.png";
+    var img4 = new Image(); img4 = "{{ asset('bundles/mobileipermind/images/') }}gold_point.png";
+}
+
+function displayTZCountDown(countdown,tzcd) 
+{
+    if (countdown < 0) { 
+        window.location.replace("{{ path('MobileIpermindBundle_loser') }}");
+    } else {
+        var secs = countdown % 60; var secsint = secs;
+        if ( secs < 10 ) { secs = '0' + secs; }
+        var countdown1 = ( countdown - secs ) / 60;
+        var mins = countdown1 % 60; var minsint = mins;
+        if ( mins < 10 ) { mins = '0' + mins; }
+        countdown1 = ( countdown1 - mins ) / 60;
+        document.getElementById( tzcd ).innerHTML = mins+':'+secs;
+        var timeseconds = ( minsint * 60 ) + secsint;
+        $( "#time_hidden_field" ).val( timeseconds );
+        setTimeout( 'displayTZCountDown('+( countdown - 1 )+',\''+tzcd+'\');',999);
+    }
+}
+
+function setSequenceStep(){
+       var sequence_step = $( "#select-choice-sequence-step" ).val();       
+       var image_html = "<img src='{{ asset('bundles/mobileipermind/images/') }}"+sequence_step+"_point.png'>";
+       $( "#select-choice-sequence-step" ).val( "choose" );
+       var sequence_length = sequence.length;
+       switch( sequence_length ){
+        case 0: 
+            $( "#sequence_1" ).html( image_html ).css( "opacity" , "1.0" );
+            moveArrow( sequence_length);
+            break;
+        case 1: 
+            $( "#sequence_2" ).html( image_html ).css( "opacity" , "1.0" );
+            moveArrow( sequence_length);
+            break;
+        case 2: 
+            $( "#sequence_3" ).html( image_html ).css( "opacity" , "1.0" );
+            moveArrow( sequence_length);
+            break;
+        case 3: 
+            $( "#sequence_4" ).html( image_html ).css( "opacity" , "1.0" );
+            $( "#checkitsubmit" ).button('enable');
+            moveArrow( sequence_length);
+            break; 
+       }       
+       
+       
+       sequence.push( sequence_step );
+       var sequence_str = sequence[0]+"|"+sequence[1]+"|"+sequence[2]+"|"+sequence[3];
+       $( "#sequence_hidden_field" ).val( sequence_str );
+       
+}
+
+function checkIt(){
+       var sequence_str = sequence[0]+"|"+sequence[1]+"|"+sequence[2]+"|"+sequence[3];
+       $( "#sequence_hidden_field" ).val( sequence_str );
+}
+
+function moveArrow(i){
+       var image_html_arrow = "<img src='{{ asset('bundles/mobileipermind/images/') }}arrow.png'>";
+       var image_html_arrow_empty = "<img src='{{ asset('bundles/mobileipermind/images/') }}arrow_empty.png'>";
+       if( i == 0 ){ $( "#arrow_1" ).html( image_html_arrow ); } else { $( "#arrow_1" ).html( image_html_arrow_empty ); }
+       if( i == 1 ){ $( "#arrow_2" ).html( image_html_arrow ); } else { $( "#arrow_2" ).html( image_html_arrow_empty ); }
+       if( i == 2 ){ $( "#arrow_3" ).html( image_html_arrow ); } else { $( "#arrow_3" ).html( image_html_arrow_empty ); }
+       if( i == 3 ){ $( "#arrow_4" ).html( image_html_arrow ); } else { $( "#arrow_4" ).html( image_html_arrow_empty ); }
+}
+
+$(function(){
+    $( "#checkitsubmit" ).button('disable');
+});
+
+</script>
+
+{% endblock %}

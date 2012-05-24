@@ -1,0 +1,95 @@
+{% extends 'MobileIpermindBundle::page.html.twig' %}
+
+{% block content %}
+<style>
+
+        .record{
+           color: #004EFF;
+           font-weight: bolder;
+        }
+        
+        .header_rec{
+           color: #333333;
+           font-weight: bolder;
+        }
+        
+        .errors{
+           color: #CC0000;
+           font-weight: bolder;
+           font-size: 0.9em;
+        }
+    
+</style>
+
+<div data-role="content" style="text-align: center;">
+    
+     <div class="content-secondary" style="font-size: 0.8em;">
+         <img src='{{ asset('bundles/mobileipermind/images/logo_ipermind.png') }}'><br><br>
+    </div>
+    <div class="content-primary" data-theme="a">
+         
+        
+        {% set sequence = GameModel.getSecretSequence() %}
+        
+        <table align="center">
+         <tr>
+          <td id="sequence_1"><img src='{{ asset('bundles/mobileipermind/images/')}}{{sequence[0]}}_point.png'></td>
+          <td id="sequence_2"><img src='{{ asset('bundles/mobileipermind/images/')}}{{sequence[1]}}_point.png'></td>
+          <td id="sequence_3"><img src='{{ asset('bundles/mobileipermind/images/')}}{{sequence[2]}}_point.png'></td>
+          <td id="sequence_4"><img src='{{ asset('bundles/mobileipermind/images/')}}{{sequence[3]}}_point.png'></td>
+         </tr>
+        </table>
+        
+        <br>
+        <img src='{{ asset('bundles/mobileipermind/images/win.png') }}'><br><br>  
+        
+        <table align="center">
+         <tr><td colspan="3">Your time: <span class="record">{{GameModel.getTimeFormatted()}}</span>                           , 
+                     {% if form is defined %}<b>Record:</b> {% else %}Your score:  {% endif %}                     
+                     <span class="record">{{GameModel.getScore()}}</span>                     
+             </td>
+         </tr>
+        </table> 
+         
+         {% if form is defined %}
+        <form name="save_record" data-ajax="false" action="{{ path("MobileIpermindBundle_saveRecord") }}" method="post" novalidate>
+            <table align="center"> 
+                
+                <tr>
+                    <td>                        
+                        {{form_widget(form.nickname)}}
+                        <script>
+                            $("#mobile_ipermindbundle_playertype_nickname").css({width: '160px'});
+                            $("#mobile_ipermindbundle_playertype_nickname").attr({placeholder: 'nickname'});
+                        </script>
+                    </td>
+                    <td>
+                        <button type="submit" data-theme="a">Save it</button>
+                    </td>
+                </tr>
+                <tr><td colspan="2" class="errors"><span id="error_block">{{form_errors(form.nickname)}}</span></td></tr>
+                <script>$("#error_block").html($("#error_block").text());</script>
+                {{form_rest(form)}}            
+            </table>
+         </form>
+         {% endif %}
+         
+       <table align="center">
+         <tr><td colspan="3"><br><img src='{{ asset('bundles/mobileipermind/images/record.png') }}'></td></tr>
+         <tr><td width="100" class="header_rec">nickname</td><td width="100" class="header_rec">score</td><td width="100" class="header_rec">date</td></tr>
+         
+         {% for record in records %}
+         <tr>
+             <td width="100">{{record.getNickname}}</td>
+             <td width="100" class="record">{{record.getScore}}</td>
+             <td width="100">{{record.createdAt.format('d M Y')}}</td></tr>
+         {% endfor %}
+         
+        </table>
+        
+             <br><br>               
+    </div>
+    
+</div>   
+
+{% endblock %}

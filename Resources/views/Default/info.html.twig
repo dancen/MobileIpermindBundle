@@ -1,0 +1,26 @@
+{% extends 'MobileIpermindBundle::page.html.twig' %}
+
+{% block content %}
+<div data-role="content" style="text-align: center;">
+    
+     <div class="content-secondary" style="font-size: 0.8em;">
+         <img src='{{ asset('bundles/mobileipermind/images/logo_ipermind.png') }}'><br><br>
+    </div>
+
+    <div class="content-primary" style="text-align: left;">
+       <p style="text-align: center;">
+          <b>Mobile IperMind</b><br>
+          Linux - Apache - MySQL - PHP<br>
+          Open Source Project<br>
+          Symfony 2<br>
+          jQuery Mobile<br>
+          <br><br>
+          <a data-ajax="false" href="{{ path("MobileIpermindBundle_ipermind") }}">
+              <img src='{{ asset('bundles/mobileipermind/images/start_game.png') }}'></a>
+       </p>
+       
+       
+          
+     </div>
+</div>           
+{% endblock %}

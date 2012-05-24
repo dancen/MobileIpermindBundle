@@ -1,0 +1,59 @@
+{% extends 'MobileIpermindBundle::page.html.twig' %}
+
+{% block content %}
+<style>
+
+        .record{
+           color: #004EFF;
+           font-weight: bolder;
+        }
+        
+        .header_rec{
+           color: #AAAAAA;
+           font-weight: bolder;
+        }
+        
+            
+</style>
+<div data-role="content" style="text-align: center;">
+    
+    <div class="content-secondary" style="font-size: 0.8em;">
+         <img src='{{ asset('bundles/mobileipermind/images/logo_ipermind.png') }}'><br>
+    </div>
+    <div class="content-primary" data-theme="a">
+        
+        <table align="center">
+         <tr><td colspan="3"><br><img src='{{ asset('bundles/mobileipermind/images/record.png') }}'></td></tr>
+         <tr><td width="100" class="header_rec">nickname</td>
+             <td width="100" class="header_rec">score</td>
+             <td width="100" class="header_rec">date</td></tr>
+         
+         {% for record in records %}
+         <tr>
+             <td width="100">{{record.getNickname}}</td>
+             <td width="100" class="record">{{record.getScore}}</td>
+             <td width="100">{{record.createdAt.format('d M Y')}}</td></tr>
+         {% endfor %}
+         
+        </table>
+        <br>
+        <table align="center">
+         <tr>
+          <td><img src='{{ asset('bundles/mobileipermind/images/logic&memory.png') }}'></td>
+         </tr>
+        </table>
+        <table align="center">
+         <tr>
+          <td>
+            <a data-ajax="false" href="{{ path("MobileIpermindBundle_ipermind") }}">
+              <img src='{{ asset('bundles/mobileipermind/images/start_game.png') }}'></a>
+          </td>
+          
+         </tr>
+        </table>
+       
+                        
+    </div>
+    
+</div>           
+{% endblock %}

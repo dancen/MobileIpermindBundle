@@ -1,0 +1,7 @@
+Mobile\IpermindBundle\Entity\Player:
+   properties:
+      nickname:
+         - NotBlank: ~ 
+         - MinLength: 3
+         
+         

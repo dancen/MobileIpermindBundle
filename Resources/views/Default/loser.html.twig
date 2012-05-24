@@ -1,0 +1,28 @@
+{% extends 'MobileIpermindBundle::page.html.twig' %}
+
+{% block content %}
+
+<div data-role="content" style="text-align: center;">
+    
+     <div class="content-secondary" style="font-size: 0.8em;">
+         <img src='{{ asset('bundles/mobileipermind/images/logo_ipermind.png') }}'><br><br>
+    </div>
+    <div class="content-primary" data-theme="a">
+        
+        {% set sequence = GameModel.getSecretSequence() %}
+        
+        <table align="center">
+         <tr>
+          <td id="sequence_1"><img src='{{ asset('bundles/mobileipermind/images/')}}{{sequence[0]}}_point.png'></td>
+          <td id="sequence_2"><img src='{{ asset('bundles/mobileipermind/images/')}}{{sequence[1]}}_point.png'></td>
+          <td id="sequence_3"><img src='{{ asset('bundles/mobileipermind/images/')}}{{sequence[2]}}_point.png'></td>
+          <td id="sequence_4"><img src='{{ asset('bundles/mobileipermind/images/')}}{{sequence[3]}}_point.png'></td>
+         </tr>
+        </table>
+        
+       <img src='{{ asset('bundles/mobileipermind/images/lose.png') }}'><br><br>                       
+    </div>
+    
+</div>   
+
+{% endblock %}

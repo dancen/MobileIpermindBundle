@@ -1,0 +1,27 @@
+MobileIpermindBundle_ipermind:
+    pattern:  /ipermind
+    defaults: { _controller: MobileIpermindBundle:Default:index }
+    
+MobileIpermindBundle_checkit:
+    pattern:  /checkit
+    defaults: { _controller: MobileIpermindBundle:Default:checkit }
+    
+MobileIpermindBundle_winner:
+    pattern:  /winner
+    defaults: { _controller: MobileIpermindBundle:Default:winner }
+    
+MobileIpermindBundle_loser:
+    pattern:  /loser
+    defaults: { _controller: MobileIpermindBundle:Default:loser }
+    
+MobileIpermindBundle_info:
+    pattern:  /info
+    defaults: { _controller: MobileIpermindBundle:Default:info }
+    
+MobileIpermindBundle_saveRecord:
+    pattern:  /save
+    defaults: { _controller: MobileIpermindBundle:Default:save }
+    
+MobileIpermindBundle_startGame:
+    pattern:  /start
+    defaults: { _controller: MobileIpermindBundle:Default:start }
