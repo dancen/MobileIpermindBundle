@@ -100,14 +100,18 @@ class GameModel {
   }
   
   public function isRecord($entity_manager){
-      $is_record = false;
+       $is_record = false;
       $records = $this->getRecords($entity_manager);
       $score = $this->getScore();
-      foreach($records as $record){
-          if( $score > $record->getScore() ) {
-              $is_record = true;
-              break;
-          }
+      if(count($records)>0){
+        foreach($records as $record){
+            if( $score > $record->getScore() ) {
+                $is_record = true;
+                break;
+            }
+        }
+      } else {
+          $is_record = true;
       }
       return $is_record;
   }
