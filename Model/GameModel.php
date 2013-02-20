@@ -103,6 +103,7 @@ class GameModel {
        $is_record = false;
       $records = $this->getRecords($entity_manager);
       $score = $this->getScore();
+      
       if(count($records)>0){
         foreach($records as $record){
             if( $score > $record->getScore() ) {
