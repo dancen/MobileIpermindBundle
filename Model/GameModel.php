@@ -110,7 +110,7 @@ class GameModel {
                 break;
             }
         }
-      } else {
+        } else {
           $is_record = true;
       }
       return $is_record;
